@@ -9,7 +9,7 @@ export const StyledButton = styled.button`
 	font-size: 14px;
 	line-height: 20px;
 	letter-spacing: 0.1px;
-	padding: 0.5rem 1rem;
+	padding: 0.6rem 1.5rem;
 	border-radius: 50px;
 	cursor: pointer;
 	transition: all 0.25s ease-in-out;

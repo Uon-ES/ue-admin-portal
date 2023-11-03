@@ -2,11 +2,12 @@ import FormDialog from "../../features/ui/formDialog/FormDialog";
 import Logo from "../../assets/logo.svg";
 import InputIcon from "../../features/ui/iconInput/IconInput";
 import { MdMail } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../features/ui/button/Button";
 import { useEffect, useRef } from "react";
 
 const SignIn = () => {
+	const navigate = useNavigate();
 	const emailRef = useRef("");
 
 	useEffect(() => {
@@ -15,7 +16,10 @@ const SignIn = () => {
 
 	const handleContinue = async () => {
 		const email = emailRef.current.value;
-		console.log(email);
+
+		if (!email) return;
+
+		navigate(`/sign-in-password?email=${email}`);
 	};
 
 	return (
@@ -27,8 +31,9 @@ const SignIn = () => {
 				<input
 					ref={emailRef}
 					id="email-input"
-					type="text"
+					type="email"
 					placeholder="Email"
+					required
 				/>
 				<MdMail />
 			</InputIcon>

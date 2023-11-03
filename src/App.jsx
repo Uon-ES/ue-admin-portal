@@ -16,12 +16,14 @@ import AdminUsers from "./pages/adminUsers/AdminUsers";
 import AdminUser from "./pages/adminUsers/AdminUser";
 import AddAdminUser from "./pages/adminUsers/AddAdminUser";
 import Map from "./pages/map/Map";
+import SignInPassword from "./pages/auth/SignInPassword";
 
 const App = () => {
 	return (
 		<Routes>
 			<Route index element={<Home />} />
 			<Route path="sign-in" element={<SignIn />} />
+			<Route path="sign-in-password" element={<SignInPassword />} />
 			<Route path="password-reset" element={<RequestReset />} />
 			<Route path="reset-requested" element={<ResetRequested />} />
 			<Route path="set-password" element={<SetPassword />} />
