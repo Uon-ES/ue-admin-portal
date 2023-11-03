@@ -1,11 +1,15 @@
 import { StyledButton } from "./Button.styled";
 
-const Button = ({ children, onClick, loading }) => {
+const Button = (props) => {
 	const handleClick = () => {
-		onClick && onClick();
+		props.onClick && props.onClick();
 	};
 
-	return <StyledButton onClick={handleClick}>{children}</StyledButton>;
+	return (
+		<StyledButton {...props} onClick={handleClick}>
+			{props.children}
+		</StyledButton>
+	);
 };
 
 export default Button;

@@ -4,10 +4,18 @@ import InputIcon from "../../features/ui/iconInput/IconInput";
 import { MdMail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Button from "../../features/ui/button/Button";
+import { useEffect, useRef } from "react";
 
 const SignIn = () => {
+	const emailRef = useRef("");
+
+	useEffect(() => {
+		emailRef.current.focus();
+	}, []);
+
 	const handleContinue = async () => {
-		console.log("continue here");
+		const email = emailRef.current.value;
+		console.log(email);
 	};
 
 	return (
@@ -16,7 +24,12 @@ const SignIn = () => {
 			<h3>Sign In</h3>
 			<p className="supporting-text">Sign into your UON ES account.</p>
 			<InputIcon iconPosition="left">
-				<input id="email-input" type="text" placeholder="Email" />
+				<input
+					ref={emailRef}
+					id="email-input"
+					type="text"
+					placeholder="Email"
+				/>
 				<MdMail />
 			</InputIcon>
 			<div className="row sb">

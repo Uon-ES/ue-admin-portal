@@ -1,7 +1,12 @@
 import { StyledFormDialog } from "./FormDialog.styled";
 
 const FormDialog = ({ children }) => {
-	return <StyledFormDialog>{children}</StyledFormDialog>;
+	const handleSubmit = (e) => {
+		e.preventDefault();
+	};
+	return (
+		<StyledFormDialog onSubmit={handleSubmit}>{children}</StyledFormDialog>
+	);
 };
 
 export default FormDialog;

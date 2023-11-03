@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledFormDialog = styled.div`
+export const StyledFormDialog = styled.form`
 	width: 400px;
 	padding: 2rem;
 	border-radius: 28px;
