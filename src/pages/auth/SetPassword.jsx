@@ -1,7 +1,6 @@
 import FormDialog from "../../features/ui/formDialog/FormDialog";
 import Logo from "../../assets/logo.svg";
-import PasswordInput from "../../features/ui/passwordInput/passwordInput";
-import { useState } from "react";
+import PasswordInput from "../../features/ui/passwordInput/PasswordInput.jsx";
 import Button from "../../features/ui/button/Button";
 import { Link } from "react-router-dom";
 
