@@ -1,8 +1,8 @@
 import FormDialog from "../../features/ui/formDialog/FormDialog";
 import Logo from "../../assets/logo.svg";
-import PasswordInput from "../../features/ui/passwordInput/PasswordInput.jsx";
 import Button from "../../features/ui/button/Button";
 import { Link } from "react-router-dom";
+import Password from "../../features/ui/password/Password.jsx";
 
 const SetPassword = () => {
 	return (
@@ -10,7 +10,7 @@ const SetPassword = () => {
 			<img src={Logo} />
 			<p className="bold">Set Password</p>
 			<p>Pick something creative yet memorable.</p>
-			<PasswordInput placeholder="Password" />
+			<Password placeholder="Password" />
 			<div className="row sb">
 				<span></span>
 				<Button>Continue</Button>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledPasswordInput = styled.div`
+export const StyledPassword = styled.div`
 	width: 100%;
 	background: none;
 

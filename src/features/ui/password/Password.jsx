@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { StyledPasswordInput } from "./passwordInput.styled";
+import { useState } from "react";
 import { MdKey, MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { StyledPassword } from "./Password.styled";
 
-const PasswordInput = (props) => {
+const Password = (props) => {
 	const [visible, setVisible] = useState(false);
 	return (
-		<StyledPasswordInput>
+		<StyledPassword>
 			<input
 				placeholder={props.placeholder}
 				type={visible ? "text" : "password"}
@@ -24,8 +24,8 @@ const PasswordInput = (props) => {
 					onClick={() => setVisible(true)}
 				/>
 			)}
-		</StyledPasswordInput>
+		</StyledPassword>
 	);
 };
 
-export default PasswordInput;
+export default Password;
