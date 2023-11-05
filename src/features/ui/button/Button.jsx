@@ -6,7 +6,11 @@ const Button = (props) => {
 	};
 
 	return (
-		<StyledButton {...props} onClick={handleClick}>
+		<StyledButton
+			{...props}
+			onClick={handleClick}
+			type={props?.type || "filled"}
+		>
 			{props.children}
 		</StyledButton>
 	);

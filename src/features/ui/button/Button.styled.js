@@ -2,9 +2,12 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button`
 	outline: none;
-	border: none;
-	background: var(--primary-blue);
-	color: white;
+	border: ${(props) =>
+		props.type === "filled" ? "none" : "1px solid var(--primary-blue)"};
+	background: ${(props) =>
+		props.type === "filled" ? "var(--primary-blue)" : "none"};
+	color: ${(props) =>
+		props.type === "filled" ? "white" : "var(--primary-blue)"};
 	font-weight: 700;
 	font-size: 14px;
 	line-height: 20px;
@@ -16,5 +19,7 @@ export const StyledButton = styled.button`
 
 	&:hover {
 		box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
+		background: var(--primary-blue);
+		color: white;
 	}
 `;

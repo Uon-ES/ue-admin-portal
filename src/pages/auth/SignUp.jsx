@@ -48,6 +48,11 @@ const SignUp = () => {
 				<Link to="/sign-in">Sign In</Link>
 				<Button onClick={handleContinue}>Continue</Button>
 			</div>
+			<div className="bottom">
+				<Link to="">Help</Link>
+				<Link to="">Privacy</Link>
+				<Link to="">Terms</Link>
+			</div>
 		</FormDialog>
 	);
 };

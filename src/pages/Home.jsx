@@ -1,5 +1,12 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Home = () => {
-	return <div>Home Page</div>;
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		navigate("/participants");
+	}, []);
 };
 
 export default Home;

@@ -4,7 +4,7 @@ export const StyledFormDialog = styled.form`
 	width: 400px;
 	padding: 2rem;
 	border-radius: 28px;
-	background-color: #00639b0d;
+	background-color: #ffffff;
 	box-shadow: 0 1px 5px 2px #0000004d;
 	display: flex;
 	flex-direction: column;

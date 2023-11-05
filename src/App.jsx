@@ -30,7 +30,11 @@ const App = () => {
 			<Route path="sign-up" element={<SignUp />} />
 
 			<Route path="/" element={<Layout />}>
-				<Route path="participant-users">
+				<Route path="dashboard">
+					<Route index element={<Map />} />
+				</Route>
+
+				<Route path="participants">
 					<Route index element={<ParticipantUsers />} />
 					<Route
 						path=":participantId"
@@ -43,14 +47,10 @@ const App = () => {
 					<Route path=":officerId" element={<Officer />} />
 				</Route>
 
-				<Route path="admin-users">
+				<Route path="admins">
 					<Route index element={<AdminUsers />} />
 					<Route path="add" element={<AddAdminUser />} />
 					<Route path=":adminId" element={<AdminUser />} />
-				</Route>
-
-				<Route path="map">
-					<Route index element={<Map />} />
 				</Route>
 			</Route>
 
