@@ -29,6 +29,7 @@ const AdminUser = () => {
 
 	const handleSave = async () => {
 		console.log("handle save");
+		setCanEdit(false);
 	};
 
 	return (
