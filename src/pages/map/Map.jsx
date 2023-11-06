@@ -30,7 +30,7 @@ const Map = () => {
 			},
 			{
 				id: 2,
-				name: "Steve Lament",
+				name: "John Lament",
 				link: "www.example.com",
 				number: "(123)456-7890",
 				description: "Called about robbery",
