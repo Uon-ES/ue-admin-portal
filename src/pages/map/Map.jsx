@@ -250,7 +250,7 @@ const Map = () => {
 				</Card>
 				<Card>
 					<div className="row jc gap2">
-						<TextField label="Phone Number" fullWidth />
+						<TextField label="Phone Number" />
 						<Button>Send</Button>
 					</div>
 					<SearchBar
