@@ -6,6 +6,7 @@ const initialState = {
 		topText: "",
 		bottomText: "",
 		showButton: false,
+		export: null,
 	},
 };
 
@@ -16,10 +17,13 @@ const globalSlice = createSlice({
 		setControlBar(state, action) {
 			state.controlBar = action.payload;
 		},
+		setExport(state, action) {
+			state.controlBar.export = action.payload;
+		},
 	},
 });
 
-export const { setControlBar } = globalSlice.actions;
+export const { setControlBar, setExport } = globalSlice.actions;
 
 export const getControlBar = (state) => state.global.controlBar;
 

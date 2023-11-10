@@ -3,10 +3,11 @@ import Logo from "../../assets/logo.svg";
 import IconInput from "../../features/ui/iconInput/IconInput";
 import { MdMail } from "react-icons/md";
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../features/ui/button/Button";
 
 const RequestReset = () => {
+	const navigate = useNavigate();
 	const emailRef = useRef("");
 
 	const handleContinue = async () => {
@@ -15,6 +16,7 @@ const RequestReset = () => {
 		if (!email) return;
 
 		console.log(email);
+		navigate("/reset-requested");
 	};
 
 	return (

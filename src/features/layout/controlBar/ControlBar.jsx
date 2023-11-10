@@ -9,6 +9,12 @@ const ControlBar = () => {
 	const navigate = useNavigate();
 	const controlBar = useSelector(getControlBar);
 
+	const handleClick = () => {
+		if (typeof controlBar.export === "function") {
+			controlBar.export();
+		}
+	};
+
 	return (
 		<StyledControlBar>
 			<div className="left">
@@ -24,7 +30,11 @@ const ControlBar = () => {
 					)}
 				</div>
 			</div>
-			{controlBar.showButton && <Button type="outline">Export</Button>}
+			{controlBar.showButton && (
+				<Button onClick={handleClick} type="outline">
+					Export
+				</Button>
+			)}
 		</StyledControlBar>
 	);
 };
