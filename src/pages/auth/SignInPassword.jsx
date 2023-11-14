@@ -6,6 +6,7 @@ import { MdLock } from "react-icons/md";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../../features/ui/button/Button";
 import Dropdown from "../../features/ui/dropdown/Dropdown";
+import handleLogin from "../../features/api/auth/handleLogin";
 
 const SignInPassword = () => {
 	const navigate = useNavigate();
@@ -25,7 +26,18 @@ const SignInPassword = () => {
 
 	const handleSignIn = async () => {
 		const password = passwordRef.current.value;
-		console.log(email, password);
+		try {
+			await handleLogin(email, password);
+			navigate("/");
+		} catch (err) {
+			console.log(err);
+			const status = err.message;
+			if (status === "400") {
+				alert("Unable to login: invalid password.");
+			} else {
+				alert("Unable to login at this time.");
+			}
+		}
 	};
 
 	return (

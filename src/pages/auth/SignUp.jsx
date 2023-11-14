@@ -2,19 +2,31 @@ import FormDialog from "../../features/ui/formDialog/FormDialog";
 import Logo from "../../assets/logo.svg";
 import IconInput from "../../features/ui/iconInput/IconInput";
 import { MdMail } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../features/ui/button/Button";
 import Input from "../../features/ui/input/Input";
 import { useState } from "react";
+import createUser from "../../features/api/user/createUser";
 
 const SignUp = () => {
+	const navigate = useNavigate();
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 
 	const handleContinue = async () => {
 		if (!firstName || !lastName || !email) return;
-		console.log(firstName, lastName, email);
+		try {
+			await createUser({
+				firstName,
+				lastName,
+				email,
+			});
+			alert(`New user created: ${firstName} ${lastName}`);
+			navigate(`/sign-in-password?email=${email}`);
+		} catch (err) {
+			alert("Unable to add user at this time.");
+		}
 	};
 
 	return (

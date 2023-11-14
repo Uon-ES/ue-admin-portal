@@ -17,6 +17,8 @@ import AdminUser from "./pages/adminUsers/AdminUser";
 import AddAdminUser from "./pages/adminUsers/AddAdminUser";
 import Map from "./pages/map/Map";
 import SignInPassword from "./pages/auth/SignInPassword";
+import PersistLogin from "./features/auth/PersistLogin";
+import RequireAuth from "./features/auth/RequireAuth";
 
 const App = () => {
 	return (
@@ -29,28 +31,32 @@ const App = () => {
 			<Route path="set-password" element={<SetPassword />} />
 			<Route path="sign-up" element={<SignUp />} />
 
-			<Route path="/" element={<Layout />}>
-				<Route path="dashboard">
-					<Route index element={<Map />} />
-				</Route>
+			<Route element={<PersistLogin />}>
+				<Route element={<RequireAuth allowedRoles={["admin"]} />}>
+					<Route path="/" element={<Layout />}>
+						<Route path="dashboard">
+							<Route index element={<Map />} />
+						</Route>
 
-				<Route path="participants">
-					<Route index element={<ParticipantUsers />} />
-					<Route
-						path=":participantId"
-						element={<ParticipantUser />}
-					/>
-				</Route>
+						<Route path="participants">
+							<Route index element={<ParticipantUsers />} />
+							<Route
+								path=":participantId"
+								element={<ParticipantUser />}
+							/>
+						</Route>
 
-				<Route path="officers">
-					<Route index element={<Officers />} />
-					<Route path=":officerId" element={<Officer />} />
-				</Route>
+						<Route path="officers">
+							<Route index element={<Officers />} />
+							<Route path=":officerId" element={<Officer />} />
+						</Route>
 
-				<Route path="admins">
-					<Route index element={<AdminUsers />} />
-					<Route path="add" element={<AddAdminUser />} />
-					<Route path=":adminId" element={<AdminUser />} />
+						<Route path="admins">
+							<Route index element={<AdminUsers />} />
+							<Route path="add" element={<AddAdminUser />} />
+							<Route path=":adminId" element={<AdminUser />} />
+						</Route>
+					</Route>
 				</Route>
 			</Route>
 
