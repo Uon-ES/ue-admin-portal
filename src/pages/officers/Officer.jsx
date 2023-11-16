@@ -2,40 +2,44 @@ import { Link, useParams } from "react-router-dom";
 import useControlBar from "../../features/hooks/useControlBar";
 import { useEffect, useState } from "react";
 import Card from "../../features/ui/card/Card";
+import { useSelector } from "react-redux";
+import { getAccessToken } from "../../features/app/authSlice";
+import getUserById from "../../features/api/user/getUserById";
 
 const Officer = () => {
+	const accessToken = useSelector(getAccessToken);
 	const { officerId } = useParams();
 	const setControlBar = useControlBar({
 		showBackArrow: true,
 		topText: `Officers`,
 	});
-	const [officer, setOfficer] = useState({});
+	const [officer, setOfficer] = useState(null);
+
+	const fetchUser = async () => {
+		try {
+			const { data } = await getUserById(accessToken, officerId);
+			setOfficer(data);
+			setControlBar({
+				showBackArrow: true,
+				topText: `Officers / ${data.firstName} ${data.lastName}`,
+			});
+		} catch (err) {
+			alert("Unable to fetch officer user.");
+		}
+	};
 
 	useEffect(() => {
-		setControlBar({
-			showBackArrow: true,
-			topText: `Officers / Brianna Martinson`,
-		});
+		fetchUser();
 	}, []);
 
-	useEffect(() => {
-		setOfficer({
-			deviceType: "iPhone 13 Mini",
-			pinId: "123456789",
-			pinStartTime: "[09/20/2023 10:30am PT]",
-			lastUpdated: "[09/20/2023 10:33am PT]",
-			longLat: "(33.933170, -84.361730)",
-			currentlyViewing: "123456789",
-			gpsCoordinates: "33° 55' 59.412\" N, 84° 21' 42.228\" W",
-			verticalAngle: "10°",
-			googleMaps: "Mercedes-Benz Stadium, 1 AMB Dr NW, Atlanta, GA",
-		});
-	}, []);
+	if (!officer) {
+		return <h2>Loading...</h2>;
+	}
 
 	return (
 		<>
 			<Card>
-				<h2>Brianna Martinson Location</h2>
+				<h2>{`${officer.firstName} ${officer.lastName} Location`}</h2>
 				<Card>
 					<h3>Details</h3>
 					<hr />

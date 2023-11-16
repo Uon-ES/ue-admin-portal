@@ -4,46 +4,88 @@ import Card from "../../features/ui/card/Card";
 import Button from "../../features/ui/button/Button";
 import Toggle from "../../features/ui/toggle/Toggle";
 import { TextField } from "@mui/material";
+import { useSelector } from "react-redux";
+import { getAccessToken } from "../../features/app/authSlice";
+import { useParams } from "react-router-dom";
+import getUserById from "../../features/api/user/getUserById";
+import updateUserById from "../../features/api/user/updateUserById";
 
 const AdminUser = () => {
+	const accessToken = useSelector(getAccessToken);
+	const { adminId } = useParams();
 	const [canEdit, setCanEdit] = useState(false);
 	const [firstName, setFirstName] = useState("Bill");
 	const [lastName, setLastName] = useState("Smith");
 	const [email, setEmail] = useState("smith@tepia.co");
 	const [phoneNumber, setPhoneNumber] = useState("+1 (123) 456-1234");
 	const [status, setStatus] = useState("Enabled");
-
 	const setControlBar = useControlBar({
 		showBackArrow: true,
 		topText: "System Users",
 		bottomText: "Details",
 	});
 
+	const fetchUser = async () => {
+		try {
+			const { data } = await getUserById(accessToken, adminId);
+
+			setFirstName(data?.firstName);
+			setLastName(data?.lastName);
+			setEmail(data?.email);
+			setPhoneNumber(data?.phoneNumber);
+			setStatus(data?.status);
+
+			setControlBar({
+				showBackArrow: true,
+				topText: `System Users / ${data.firstName} ${data.lastName}`,
+				bottomText: "Details",
+			});
+		} catch (err) {
+			alert("Unable to fetch admin user.");
+		}
+	};
+
 	useEffect(() => {
-		setControlBar({
-			showBackArrow: true,
-			topText: "System Users / Bill Smith",
-			bottomText: "Details",
-		});
+		fetchUser();
 	}, []);
 
 	const handleSave = async () => {
-		console.log("handle save");
+		try {
+			await updateUserById(accessToken, adminId, {
+				firstName,
+				lastName,
+				email,
+				phoneNumber,
+				status,
+			});
+			alert("Admin user has been updated.");
+		} catch (err) {
+			alert("Unable to save admin user.");
+		} finally {
+			await fetchUser();
+			setCanEdit(false);
+		}
 		setCanEdit(false);
+	};
+
+	const handleCancel = async () => {
+		try {
+			await fetchUser();
+			setCanEdit(false);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
 		<Card>
-			<h2>Bill Smith</h2>
+			<h2>{`${firstName} ${lastName}`}</h2>
 			<Card>
 				<div className="row sb">
 					<h3>Details</h3>
 					{canEdit ? (
 						<div className="row gap05">
-							<Button
-								type="outline"
-								onClick={() => setCanEdit(false)}
-							>
+							<Button type="outline" onClick={handleCancel}>
 								Cancel
 							</Button>
 							<Button onClick={handleSave}>Save</Button>

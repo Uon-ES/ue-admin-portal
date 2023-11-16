@@ -7,9 +7,12 @@ import Button from "../../features/ui/button/Button";
 import Input from "../../features/ui/input/Input";
 import { useState } from "react";
 import createUser from "../../features/api/user/createUser";
+import { useSelector } from "react-redux";
+import { getAccessToken } from "../../features/app/authSlice";
 
 const SignUp = () => {
 	const navigate = useNavigate();
+	const accessToken = useSelector(getAccessToken);
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
@@ -17,7 +20,7 @@ const SignUp = () => {
 	const handleContinue = async () => {
 		if (!firstName || !lastName || !email) return;
 		try {
-			await createUser({
+			await createUser(accessToken, {
 				firstName,
 				lastName,
 				email,

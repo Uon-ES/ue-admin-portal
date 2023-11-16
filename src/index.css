@@ -43,6 +43,10 @@ body {
 	gap: 1rem;
 }
 
+.row-reverse {
+	flex-direction: row-reverse;
+}
+
 .sb {
 	justify-content: space-between;
 	width: 100%;

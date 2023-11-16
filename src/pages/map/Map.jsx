@@ -217,7 +217,6 @@ const Map = () => {
 	}, []);
 
 	const handleRowClick = ({ row }) => {
-		console.log(row.id);
 		setDialogOpen(true);
 	};
 

@@ -5,13 +5,16 @@ import { useEffect, useState } from "react";
 import SearchBar from "../../features/ui/searchBar/SearchBar";
 import Table from "../../features/ui/table/Table";
 import Button from "../../features/ui/button/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setExport } from "../../features/app/globalSlice";
 import downloadSpreadsheet from "../../features/utils/downloadSpreadsheet";
+import { getAccessToken } from "../../features/app/authSlice";
+import getUsers from "../../features/api/user/getUsers";
 
 const AdminUsers = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const accessToken = useSelector(getAccessToken);
 	const [users, setUsers] = useState([]);
 	const { search, setSearch, searchResults, setSearchResults } =
 		useSearch(users);
@@ -20,96 +23,14 @@ const AdminUsers = () => {
 		showButton: true,
 	});
 
-	const getUsers = async () => {
-		const data = [
-			{
-				id: 1,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 2,
-				name: "John Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Disabled",
-			},
-			{
-				id: 3,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 4,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 5,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 6,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 7,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 8,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 9,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 10,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 11,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-			{
-				id: 12,
-				name: "Luis Contreras",
-				email: "luis@uon.app",
-				phoneNumber: "+1 (123)-123-1234",
-				header: "Enabled",
-			},
-		];
-		setUsers(data);
-		setSearchResults(data);
-		return data;
+	const fetchUsers = async () => {
+		try {
+			const { data } = await getUsers(accessToken, "type=admin");
+			setUsers(data);
+			setSearchResults(data);
+		} catch (err) {
+			alert("Unable to fetch admin users.");
+		}
 	};
 
 	const handleExport = async () => {
@@ -207,12 +128,12 @@ const AdminUsers = () => {
 	};
 
 	useEffect(() => {
-		getUsers();
+		fetchUsers();
 		dispatch(setExport(handleExport));
 	}, []);
 
 	const handleRowClick = ({ row }) => {
-		navigate(`/admins/${row.id}`);
+		navigate(`/admins/${row._id}`);
 	};
 
 	return (
@@ -229,17 +150,25 @@ const AdminUsers = () => {
 			<Table
 				rows={searchResults}
 				columns={[
-					{ field: "name", headerName: "Name", width: 300 },
+					{
+						field: "name",
+						headerName: "Name",
+						width: 300,
+						valueGetter: ({ row }) => {
+							return `${row.firstName} ${row.lastName}`;
+						},
+					},
 					{ field: "email", headerName: "Email Address", width: 300 },
 					{
 						field: "phoneNumber",
 						headerName: "Phone Number",
 						width: 250,
 					},
-					{ field: "header", headerName: "Header", width: 100 },
+					{ field: "status", headerName: "Status", width: 100 },
 				]}
 				tableOptions={{
 					onRowClick: handleRowClick,
+					getRowId: (row) => row["_id"],
 				}}
 			/>
 		</>

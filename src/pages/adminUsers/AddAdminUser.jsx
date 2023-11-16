@@ -3,18 +3,41 @@ import FormDialog from "../../features/ui/formDialog/FormDialog";
 import Button from "../../features/ui/button/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import createUser from "../../features/api/user/createUser";
+import { useSelector } from "react-redux";
+import { getAccessToken } from "../../features/app/authSlice";
 
 const AddAdminUser = () => {
 	const navigate = useNavigate();
+	const accessToken = useSelector(getAccessToken);
 
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [number, setNumber] = useState("");
 
+	const resetForm = () => {
+		setFirstName("");
+		setLastName("");
+		setEmail("");
+		setNumber("");
+	};
+
 	const handleInvite = async () => {
 		if (!firstName || !lastName || !email || !number) return;
-		console.log({ firstName, lastName, email, number });
+		try {
+			await createUser(accessToken, {
+				firstName,
+				lastName,
+				email,
+				phoneNumber: number,
+				type: "admin",
+			});
+			alert("New admin user has been added.");
+			resetForm();
+		} catch (err) {
+			alert(`Unabled to add new admin user: ${err.message}`);
+		}
 	};
 
 	return (
@@ -58,14 +81,14 @@ const AddAdminUser = () => {
 				</div>
 				<div className="row sb">
 					<span></span>
-					<div className="row gap05">
+					<div className="row gap05 row-reverse">
+						<Button onClick={handleInvite}>Invite</Button>
 						<Button
-							onClick={() => navigate("/admins")}
+							onClick={(e) => navigate("/admins")}
 							type="outline"
 						>
 							Cancel
 						</Button>
-						<Button onClick={handleInvite}>Invite</Button>
 					</div>
 				</div>
 			</FormDialog>

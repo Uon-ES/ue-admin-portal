@@ -1,12 +1,14 @@
-import axios from "../axios";
+import { axiosAuth } from "../axios";
 
-const createUser = async (body) => {
+const createUser = async (accessToken, body) => {
 	try {
-		const response = await axios.post("/users", { ...body });
+		const response = await axiosAuth(accessToken).post("/users", {
+			...body,
+		});
 		return response;
 	} catch (err) {
 		console.log(err);
-		throw new Error(err);
+		throw new Error(err?.response?.data || err);
 	}
 };
 

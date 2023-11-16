@@ -4,104 +4,27 @@ import SearchBar from "../../features/ui/searchBar/SearchBar";
 import useSearch from "../../features/hooks/useSearch";
 import { useEffect, useState } from "react";
 import Table from "../../features/ui/table/Table";
+import { useSelector } from "react-redux";
+import { getAccessToken } from "../../features/app/authSlice";
+import getUsers from "../../features/api/user/getUsers";
+import formatDateTime from "../../features/utils/formatDateTime";
 
 const Officers = () => {
 	const navigate = useNavigate();
+	const accessToken = useSelector(getAccessToken);
 	const [users, setUsers] = useState([]);
 	const { search, setSearch, searchResults, setSearchResults } =
 		useSearch(users);
 	useControlBar({ topText: "Officers" });
 
 	const getOfficers = async () => {
-		const data = [
-			{
-				id: 1,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 2,
-				name: "John Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 3,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 4,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 5,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 6,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 7,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 8,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 9,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 10,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 11,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-			{
-				id: 12,
-				name: "Brianna Martinson",
-				deviceType: "Cell",
-				creationTimestamp: "[09/20/2023 10:30am PT]",
-				pinsInView: 1,
-			},
-		];
-		setUsers(data);
-		setSearchResults(data);
-		return data;
+		try {
+			const { data } = await getUsers(accessToken, "type=officer");
+			setUsers(data);
+			setSearchResults(data);
+		} catch (err) {
+			alert("Unable to fetch officer users.");
+		}
 	};
 
 	useEffect(() => {
@@ -109,7 +32,7 @@ const Officers = () => {
 	}, []);
 
 	const handleRowClick = ({ row }) => {
-		navigate(`/officers/${row.id}`);
+		navigate(`/officers/${row._id}`);
 	};
 
 	return (
@@ -121,7 +44,14 @@ const Officers = () => {
 			<Table
 				rows={searchResults}
 				columns={[
-					{ field: "name", headerName: "Name", width: 300 },
+					{
+						field: "name",
+						headerName: "Name",
+						width: 300,
+						valueGetter: ({ row }) => {
+							return `${row.firstName} ${row.lastName}`;
+						},
+					},
 					{
 						field: "deviceType",
 						headerName: "Device Type",
@@ -131,15 +61,19 @@ const Officers = () => {
 						field: "creationTimestamp",
 						headerName: "Creation Timestamp",
 						width: 300,
+						valueGetter: (params) => {
+							return formatDateTime(params.row.createdAt);
+						},
 					},
 					{
-						field: "pinsInView",
+						field: "pinsToView",
 						headerName: "Number of Pins in View",
 						width: 300,
 					},
 				]}
 				tableOptions={{
 					onRowClick: handleRowClick,
+					getRowId: (row) => row["_id"],
 				}}
 			/>
 		</>
