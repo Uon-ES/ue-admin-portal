@@ -38,7 +38,7 @@ const SignIn = () => {
 				<MdMail />
 			</InputIcon>
 			<div className="row sb">
-				<Link to="/sign-up">Sign Up</Link>
+				<span></span>
 				<Button onClick={handleContinue}>Continue</Button>
 			</div>
 			<div className="bottom">
