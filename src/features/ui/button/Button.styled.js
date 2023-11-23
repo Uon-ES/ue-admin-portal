@@ -22,4 +22,9 @@ export const StyledButton = styled.button`
 		background: var(--primary-blue);
 		color: white;
 	}
+
+	&:focus,
+	&:active {
+		box-shadow: 0 0 5px 3px rgba(0, 89, 199, 0.75);
+	}
 `;
