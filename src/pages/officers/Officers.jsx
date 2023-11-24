@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import Table from "../../features/ui/table/Table";
 import { useSelector } from "react-redux";
 import { getAccessToken } from "../../features/app/authSlice";
-import getUsers from "../../features/api/user/getUsers";
 import formatDateTime from "../../features/utils/formatDateTime";
+import getAllOfficers from "../../features/api/officer/getAllOfficers";
 
 const Officers = () => {
 	const navigate = useNavigate();
@@ -19,7 +19,7 @@ const Officers = () => {
 
 	const getOfficers = async () => {
 		try {
-			const { data } = await getUsers(accessToken, "type=officer");
+			const { data } = await getAllOfficers(accessToken);
 			setUsers(data);
 			setSearchResults(data);
 		} catch (err) {
@@ -69,6 +69,9 @@ const Officers = () => {
 						field: "pinsToView",
 						headerName: "Number of Pins in View",
 						width: 300,
+						valueGetter: (params) => {
+							return params.row.pinsToView.length;
+						},
 					},
 				]}
 				tableOptions={{

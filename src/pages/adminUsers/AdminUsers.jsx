@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setExport } from "../../features/app/globalSlice";
 import downloadSpreadsheet from "../../features/utils/downloadSpreadsheet";
 import { getAccessToken } from "../../features/app/authSlice";
-import getUsers from "../../features/api/user/getUsers";
+import getAllAdmins from "../../features/api/admin/getAllAdmins";
 
 const AdminUsers = () => {
 	const navigate = useNavigate();
@@ -25,7 +25,7 @@ const AdminUsers = () => {
 
 	const fetchUsers = async () => {
 		try {
-			const { data } = await getUsers(accessToken, "type=admin");
+			const { data } = await getAllAdmins(accessToken);
 			setUsers(data);
 			setSearchResults(data);
 		} catch (err) {
@@ -35,92 +35,14 @@ const AdminUsers = () => {
 
 	const handleExport = async () => {
 		try {
-			const data = [
-				{
-					id: 1,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 2,
-					name: "John Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Disabled",
-				},
-				{
-					id: 3,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 4,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 5,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 6,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 7,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 8,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 9,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 10,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 11,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-				{
-					id: 12,
-					name: "Luis Contreras",
-					email: "luis@uon.app",
-					phoneNumber: "+1 (123)-123-1234",
-					header: "Enabled",
-				},
-			];
+			const data = users?.map((user) => ({
+				id: user._id,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				email: user.email,
+				phoneNumber: user.phoneNumber,
+				status: user.status,
+			}));
 			downloadSpreadsheet(data, "admin-users");
 		} catch (err) {
 			console.log(err.message);

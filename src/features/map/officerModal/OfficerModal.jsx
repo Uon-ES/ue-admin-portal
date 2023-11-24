@@ -1,29 +1,34 @@
-import { useEffect, useRef, useState } from "react";
-import Table from "../../ui/table/Table";
+import { useEffect, useState } from "react";
 import Button from "../../ui/button/Button";
 import { useDispatch } from "react-redux";
 import { setOfficerModal } from "../../app/mapSlice";
+import useOutsideClick from "../../hooks/useOutsideClick";
+import OfficerTable from "./officerTable/OfficerTable";
 
 const OfficerModal = () => {
 	const dispatch = useDispatch();
 	const [officers, setOfficers] = useState([]);
-	const modalRef = useRef();
+	const [modalRef] = useOutsideClick(() => dispatch(setOfficerModal(false)));
 
 	const getOfficers = async () => {
 		const data = [
 			{
-				id: 1,
-				phoneNumber: "Steve Lament",
-				linksAssigned: 1,
-				status: "Steady",
-				select: "selected",
+				name: "Steve Lament",
+				pinsToView: 1,
+				officerStatus: "Steady",
+				status: "Available",
 			},
 			{
-				id: 2,
-				phoneNumber: "Steve Lament",
-				linksAssigned: 1,
-				status: "Steady",
-				select: "selected",
+				name: "Andrew Lament",
+				pinsToView: 0,
+				officerStatus: "Steady",
+				status: "Selected",
+			},
+			{
+				name: "Steve Lawrence",
+				pinsToView: 1,
+				officerStatus: "Down",
+				status: "Unavailable",
 			},
 		];
 		setOfficers(data);
@@ -33,20 +38,6 @@ const OfficerModal = () => {
 		getOfficers();
 	}, []);
 
-	useEffect(() => {
-		const handleClickOutside = (e) => {
-			if (modalRef.current && !modalRef.current.contains(e.target)) {
-				dispatch(setOfficerModal(false));
-			}
-		};
-
-		document.addEventListener("mousedown", handleClickOutside);
-
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, []);
-
 	return (
 		<div className="transparent-bg">
 			<div className="form-dialog" ref={modalRef}>
@@ -54,31 +45,7 @@ const OfficerModal = () => {
 					<h2>Officers</h2>
 					<Button>Assign to Link</Button>
 				</div>
-				<Table
-					rows={officers}
-					columns={[
-						{
-							field: "name",
-							headerName: "Officer Name",
-							width: 150,
-						},
-						{
-							field: "linksAssigned",
-							headerName: "Links Assigned",
-							width: 150,
-						},
-						{
-							field: "status",
-							headerName: "Officer Status",
-							width: 150,
-						},
-						{
-							field: "select",
-							headerName: "Select",
-							width: 150,
-						},
-					]}
-				/>
+				<OfficerTable data={officers} />
 			</div>
 		</div>
 	);

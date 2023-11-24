@@ -4,10 +4,10 @@ import SearchBar from "../../features/ui/searchBar/SearchBar";
 import Table from "../../features/ui/table/Table";
 import useSearch from "../../features/hooks/useSearch";
 import { useNavigate } from "react-router-dom";
-import getUsers from "../../features/api/user/getUsers";
 import { useSelector } from "react-redux";
 import { getAccessToken } from "../../features/app/authSlice";
 import formatDateTime from "../../features/utils/formatDateTime";
+import getAllParticipants from "../../features/api/participant/getAllParticipants";
 
 const ParticipantUsers = () => {
 	const navigate = useNavigate();
@@ -19,7 +19,7 @@ const ParticipantUsers = () => {
 
 	const fetchUsers = async () => {
 		try {
-			const { data } = await getUsers(accessToken, "type=participant");
+			const { data } = await getAllParticipants(accessToken);
 			setUsers(data);
 			setSearchResults(data);
 		} catch (err) {

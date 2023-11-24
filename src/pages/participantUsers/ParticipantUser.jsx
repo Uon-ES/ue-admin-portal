@@ -2,9 +2,9 @@ import { Link, useParams } from "react-router-dom";
 import useControlBar from "../../features/hooks/useControlBar";
 import Card from "../../features/ui/card/Card";
 import { useEffect, useState } from "react";
-import getUserById from "../../features/api/user/getUserById";
 import { useSelector } from "react-redux";
 import { getAccessToken } from "../../features/app/authSlice";
+import getAllParticipants from "../../features/api/participant/getAllParticipants";
 
 const ParticipantUser = () => {
 	const accessToken = useSelector(getAccessToken);
@@ -14,8 +14,11 @@ const ParticipantUser = () => {
 
 	const fetchUser = async () => {
 		try {
-			const { data } = await getUserById(accessToken, participantId);
-			setParticipant(data);
+			const { data } = await getAllParticipants(
+				accessToken,
+				`_id=${participantId}`
+			);
+			setParticipant(data[0]);
 		} catch (err) {
 			alert("Unable to fetch partipant user.");
 		}

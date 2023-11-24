@@ -3,9 +3,9 @@ import FormDialog from "../../features/ui/formDialog/FormDialog";
 import Button from "../../features/ui/button/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import createUser from "../../features/api/user/createUser";
 import { useSelector } from "react-redux";
 import { getAccessToken } from "../../features/app/authSlice";
+import createAdmin from "../../features/api/admin/createAdmin";
 
 const AddAdminUser = () => {
 	const navigate = useNavigate();
@@ -26,12 +26,11 @@ const AddAdminUser = () => {
 	const handleInvite = async () => {
 		if (!firstName || !lastName || !email || !number) return;
 		try {
-			await createUser(accessToken, {
+			await createAdmin(accessToken, {
 				firstName,
 				lastName,
 				email,
 				phoneNumber: number,
-				type: "admin",
 			});
 			alert("New admin user has been added.");
 			resetForm();

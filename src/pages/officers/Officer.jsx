@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Card from "../../features/ui/card/Card";
 import { useSelector } from "react-redux";
 import { getAccessToken } from "../../features/app/authSlice";
-import getUserById from "../../features/api/user/getUserById";
+import getAllOfficers from "../../features/api/officer/getAllOfficers";
 
 const Officer = () => {
 	const accessToken = useSelector(getAccessToken);
@@ -17,7 +17,11 @@ const Officer = () => {
 
 	const fetchUser = async () => {
 		try {
-			const { data } = await getUserById(accessToken, officerId);
+			const response = await getAllOfficers(
+				accessToken,
+				`_id=${officerId}`
+			);
+			const data = response.data[0];
 			setOfficer(data);
 			setControlBar({
 				showBackArrow: true,

@@ -7,8 +7,8 @@ import { TextField } from "@mui/material";
 import { useSelector } from "react-redux";
 import { getAccessToken } from "../../features/app/authSlice";
 import { useParams } from "react-router-dom";
-import getUserById from "../../features/api/user/getUserById";
-import updateUserById from "../../features/api/user/updateUserById";
+import getAllAdmins from "../../features/api/admin/getAllAdmins";
+import updateAdminById from "../../features/api/admin/updateAdminById";
 
 const AdminUser = () => {
 	const accessToken = useSelector(getAccessToken);
@@ -27,7 +27,8 @@ const AdminUser = () => {
 
 	const fetchUser = async () => {
 		try {
-			const { data } = await getUserById(accessToken, adminId);
+			const response = await getAllAdmins(accessToken, `_id=${adminId}`);
+			const data = response.data[0];
 
 			setFirstName(data?.firstName);
 			setLastName(data?.lastName);
@@ -51,7 +52,7 @@ const AdminUser = () => {
 
 	const handleSave = async () => {
 		try {
-			await updateUserById(accessToken, adminId, {
+			await updateAdminById(accessToken, adminId, {
 				firstName,
 				lastName,
 				email,

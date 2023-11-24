@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import getTemporaryPins from "../api/user/getTemporaryPins";
 
 const initialState = {
 	showOfficerModal: false,
