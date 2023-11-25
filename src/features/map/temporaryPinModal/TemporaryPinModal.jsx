@@ -1,14 +1,17 @@
 import { MdClose } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTemporaryModalForm, setTemporaryUsers } from "../../app/mapSlice";
 import { TextField } from "@mui/material";
 import Button from "../../ui/button/Button";
 import { useEffect, useRef, useState } from "react";
-import createTemporaryPin from "../../api/user/createTemporaryPin";
-import getTemporaryPins from "../../api/user/getTemporaryPins";
+import { getAccessToken } from "../../app/authSlice";
+import createParticipant from "../../api/participant/createParticipant";
+import createPin from "../../api/pin/createPin";
+import getPins from "../../api/pin/getPins";
 
 const TemporaryPinModal = () => {
 	const dispatch = useDispatch();
+	const accessToken = useSelector(getAccessToken);
 	const modalRef = useRef();
 	const [pinData, setPinData] = useState({
 		firstName: "",
@@ -34,11 +37,21 @@ const TemporaryPinModal = () => {
 	const handleCreatePinSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await createTemporaryPin("", pinData);
+			const participantResponse = await createParticipant(
+				accessToken,
+				pinData
+			);
+			const participant = participantResponse.data;
+			await createPin(accessToken, {
+				type: "Temporary",
+				user: participant._id,
+				userType: "Participant",
+			});
+			alert("Temporary pin has been created.");
 		} catch (err) {
 			alert("Unable to create temporary pin at this time.");
 		} finally {
-			const { data } = await getTemporaryPins("");
+			const { data } = await getPins(accessToken, "type=Temporary");
 			dispatch(setTemporaryUsers(data));
 			dispatch(setTemporaryModalForm(false));
 		}

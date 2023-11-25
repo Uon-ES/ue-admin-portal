@@ -16,26 +16,8 @@ const PinCard = () => {
 		useSearch(users);
 
 	const getUsers = async () => {
-		const data = [
-			{
-				id: 1,
-				name: "Steve Lament",
-				link: "www.example.com",
-				phoneNumber: "(123)456-7890",
-				description: "Called about robbery",
-				status: "Assigned",
-			},
-			{
-				id: 2,
-				name: "John Lament",
-				link: "www.example.com",
-				phoneNumber: "(123)456-7890",
-				description: "Called about robbery",
-				status: "Unassigned",
-			},
-		];
-		setUsers(data);
-		setSearchResults(data);
+		setUsers([]);
+		setSearchResults([]);
 	};
 
 	useEffect(() => {

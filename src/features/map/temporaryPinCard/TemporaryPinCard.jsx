@@ -12,10 +12,12 @@ import {
 } from "../../app/mapSlice";
 import { useEffect } from "react";
 import useSearch from "../../hooks/useSearch";
-import getTemporaryPins from "../../api/user/getTemporaryPins";
+import getPins from "../../api/pin/getPins";
+import { getAccessToken } from "../../app/authSlice";
 
 const TemporaryPinCard = () => {
 	const dispatch = useDispatch();
+	const accessToken = useSelector(getAccessToken);
 	const users = useSelector(getTemporaryUsers);
 	const { search, setSearch, searchResults, setSearchResults } =
 		useSearch(users);
@@ -23,7 +25,8 @@ const TemporaryPinCard = () => {
 	useEffect(() => {
 		const fetchTemporaryUsers = async () => {
 			try {
-				const { data } = await getTemporaryPins("");
+				const { data } = await getPins(accessToken, "type=Temporary");
+				console.log(data);
 				dispatch(setTemporaryUsers(data));
 				setSearchResults(data);
 			} catch (err) {
