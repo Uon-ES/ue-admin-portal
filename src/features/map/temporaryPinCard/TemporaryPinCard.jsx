@@ -25,7 +25,11 @@ const TemporaryPinCard = () => {
 	useEffect(() => {
 		const fetchTemporaryUsers = async () => {
 			try {
-				const { data } = await getPins(accessToken, "type=Temporary");
+				const response = await getPins(accessToken, "type=Temporary");
+				const data = response.data.map((row) => ({
+					...row,
+					...row.user,
+				}));
 				console.log(data);
 				dispatch(setTemporaryUsers(data));
 				setSearchResults(data);
