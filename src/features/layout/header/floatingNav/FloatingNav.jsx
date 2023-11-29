@@ -14,7 +14,9 @@ const FloatingNav = ({ text = "abc" }) => {
 
 	const handleLogout = async () => {
 		try {
+			console.log("before");
 			await logout();
+			console.log("after");
 			navigate("/");
 		} catch (err) {
 			console.log(err);

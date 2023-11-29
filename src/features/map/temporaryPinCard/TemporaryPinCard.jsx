@@ -30,7 +30,6 @@ const TemporaryPinCard = () => {
 					...row,
 					...row.user,
 				}));
-				console.log(data);
 				dispatch(setTemporaryUsers(data));
 				setSearchResults(data);
 			} catch (err) {

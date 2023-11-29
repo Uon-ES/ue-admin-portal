@@ -32,28 +32,30 @@ const App = () => {
 			<Route path="sign-up" element={<SignUp />} />
 
 			<Route element={<PersistLogin />}>
-				<Route path="/" element={<Layout />}>
-					<Route path="dashboard">
-						<Route index element={<Map />} />
-					</Route>
+				<Route element={<RequireAuth allowedRoles={["admin"]} />}>
+					<Route path="/" element={<Layout />}>
+						<Route path="dashboard">
+							<Route index element={<Map />} />
+						</Route>
 
-					<Route path="participants">
-						<Route index element={<ParticipantUsers />} />
-						<Route
-							path=":participantId"
-							element={<ParticipantUser />}
-						/>
-					</Route>
+						<Route path="participants">
+							<Route index element={<ParticipantUsers />} />
+							<Route
+								path=":participantId"
+								element={<ParticipantUser />}
+							/>
+						</Route>
 
-					<Route path="officers">
-						<Route index element={<Officers />} />
-						<Route path=":officerId" element={<Officer />} />
-					</Route>
+						<Route path="officers">
+							<Route index element={<Officers />} />
+							<Route path=":officerId" element={<Officer />} />
+						</Route>
 
-					<Route path="admins">
-						<Route index element={<AdminUsers />} />
-						<Route path="add" element={<AddAdminUser />} />
-						<Route path=":adminId" element={<AdminUser />} />
+						<Route path="admins">
+							<Route index element={<AdminUsers />} />
+							<Route path="add" element={<AddAdminUser />} />
+							<Route path=":adminId" element={<AdminUser />} />
+						</Route>
 					</Route>
 				</Route>
 			</Route>
