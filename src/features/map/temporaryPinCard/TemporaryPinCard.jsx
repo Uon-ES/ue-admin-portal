@@ -6,7 +6,7 @@ import Table from "../../ui/table/Table";
 import {
 	getTemporaryUsers,
 	setOfficerModal,
-	setSelectedUser,
+	setSelectedPin,
 	setTemporaryModalForm,
 	setTemporaryUsers,
 } from "../../app/mapSlice";
@@ -44,7 +44,7 @@ const TemporaryPinCard = () => {
 	}, [users]);
 
 	const handleRowClick = ({ row }) => {
-		dispatch(setSelectedUser(row));
+		dispatch(setSelectedPin(row));
 		dispatch(setOfficerModal(true));
 	};
 

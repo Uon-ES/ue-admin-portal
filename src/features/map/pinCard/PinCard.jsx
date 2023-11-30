@@ -4,7 +4,7 @@ import PhoneInput from "../../ui/phoneInput/PhoneInput";
 import useSearch from "../../hooks/useSearch";
 import SearchBar from "../../ui/searchBar/SearchBar";
 import { useDispatch } from "react-redux";
-import { setOfficerModal, setSelectedUser } from "../../app/mapSlice";
+import { setOfficerModal } from "../../app/mapSlice";
 import Button from "../../ui/button/Button";
 import Table from "../../ui/table/Table";
 
@@ -29,7 +29,6 @@ const PinCard = () => {
 	};
 
 	const handleRowClick = ({ row }) => {
-		dispatch(setSelectedUser(row));
 		dispatch(setOfficerModal(true));
 	};
 

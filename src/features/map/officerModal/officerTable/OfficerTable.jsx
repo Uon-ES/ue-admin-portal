@@ -5,7 +5,7 @@ import {
 } from "react-icons/md";
 import { StyledOfficerTable, StyledPill } from "./OfficerTable.styled";
 
-const OfficerTable = ({ data }) => {
+const OfficerTable = ({ setData, data }) => {
 	const getAvailability = (status) => {
 		if (status === "Selected") {
 			return <MdCheckBox style={{ color: "#00639B" }} />;
@@ -14,6 +14,25 @@ const OfficerTable = ({ data }) => {
 		} else {
 			return <MdCheckBoxOutlineBlank />;
 		}
+	};
+
+	const determineStatus = (officer, row) => {
+		if (officer.id === row.id) {
+			if (officer.status === "Selected") {
+				return "Available";
+			}
+			return "Selected";
+		}
+		return officer.status;
+	};
+
+	const handleCheckboxClick = (row) => {
+		setData(
+			data.map((officer) => ({
+				...officer,
+				status: determineStatus(officer, row),
+			}))
+		);
 	};
 
 	return (
@@ -37,7 +56,9 @@ const OfficerTable = ({ data }) => {
 									{row?.officerStatus}
 								</StyledPill>
 							</td>
-							<td>{getAvailability(row?.status)}</td>
+							<td onClick={() => handleCheckboxClick(row)}>
+								{getAvailability(row?.status)}
+							</td>
 						</tr>
 					))}
 				</tbody>
